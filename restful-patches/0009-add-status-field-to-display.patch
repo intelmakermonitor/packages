@@ -1,0 +1,85 @@
+From 5852378e7a29665b2d454c710a003dcc59847651 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Sat, 9 May 2015 21:07:49 +0000
+Subject: [PATCH 9/9] add status field to display
+
+---
+ public/javascripts/global.js | 10 ++--------
+ views/index.jade             |  2 +-
+ 2 files changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/public/javascripts/global.js b/public/javascripts/global.js
+index 958f5a3..227490d 100644
+--- a/public/javascripts/global.js
++++ b/public/javascripts/global.js
+@@ -37,6 +37,7 @@ function populateTable() {
+             tableContent += '<td>' + this.age + '</td>';
+             tableContent += '<td>' + this.gender + '</td>';
+             tableContent += '<td>' + this.parentname + '</td>';
++            tableContent += '<td>' + this.status + '</td>';
+             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+             tableContent += '</tr>';
+         });
+@@ -58,7 +59,6 @@ function addUser(event) {
+ 
+     // Check and make sure errorCount's still at zero
+     if(errorCount === 0) {
+-
+         // If it is, compile all user info into one object
+         var newUser = {
+             'childname': $('#addUser fieldset input#inputChildName').val(),
+@@ -68,6 +68,7 @@ function addUser(event) {
+             'location': $('#addUser fieldset input#inputUserLocation').val(),
+             'gender': $('#addUser fieldset input#inputUserGender').val(),
+             'parentname': $('#addUser fieldset input#inputParentName').val(),
++            'status': 'New User',
+             'parentphone': $('#addUser fieldset input#inputParentPhone').val()
+         }
+ 
+@@ -114,7 +115,6 @@ function deleteUser(event) {
+ 
+     // Check and make sure the user confirmed
+     if (confirmation === true) {
+-
+         // If they did, do our delete
+         $.ajax({
+             type: 'DELETE',
+@@ -127,18 +127,12 @@ function deleteUser(event) {
+             else {
+                 alert('Error: ' + response.msg);
+             }
+-
+             // Update the table
+             populateTable();
+-
+         });
+-
+     }
+     else {
+-
+         // If they said no to the confirm, do nothing
+         return false;
+-
+     }
+-
+ };
+diff --git a/views/index.jade b/views/index.jade
+index fac52f4..86e309c 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -14,6 +14,7 @@ block content
+                     th Age
+                     th Gender
+                     th Parent Name
++                    th Status
+                     th Delete
+                 tbody
+         // /USER LIST
+@@ -36,4 +37,3 @@ block content
+                 br
+                 button#btnAddUser Add
+         // /ADD USER
+-
+-- 
+1.9.0
+
