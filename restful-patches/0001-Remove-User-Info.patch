@@ -1,0 +1,53 @@
+From 7a8765972d3cbef01a766ac035d0c673664ca377 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Mon, 13 Apr 2015 00:50:29 +0000
+Subject: [PATCH 1/8] Remove User Info
+
+---
+ views/index.jade | 21 ++-------------------
+ 1 file changed, 2 insertions(+), 19 deletions(-)
+
+diff --git a/views/index.jade b/views/index.jade
+index 3faa880..c65e190 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -2,28 +2,11 @@ extends layout
+ 
+ block content
+     h1= title
+-    p Welcome to our test
++    p Welcome to Daycare Monitor Registration page
+ 
+     // Wrapper
+     #wrapper
+ 
+-        // USER INFO
+-        #userInfo
+-            h2 User Info
+-            p
+-                strong Name:
+-                |  <span id='userInfoName'></span>
+-                br
+-                strong Age:
+-                |  <span id='userInfoAge'></span>
+-                br
+-                strong Gender:
+-                |  <span id='userInfoGender'></span>
+-                br
+-                strong Location:
+-                |  <span id='userInfoLocation'></span>
+-        // /USER INFO
+-
+         // USER LIST
+         h2 User List
+         #userList
+@@ -51,4 +34,4 @@ block content
+                 button#btnAddUser Add User
+         // /ADD USER
+ 
+-    // /WRAPPER
+\ No newline at end of file
++    // /WRAPPER
+-- 
+1.9.0
+

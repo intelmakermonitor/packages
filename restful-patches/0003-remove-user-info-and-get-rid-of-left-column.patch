@@ -1,0 +1,40 @@
+From 637fc95f21e1e06b74b7590fb165aa98a63e96e1 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Mon, 13 Apr 2015 02:59:27 +0000
+Subject: [PATCH 3/8] remove user info and get rid of left column
+
+---
+ views/index.jade | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/views/index.jade b/views/index.jade
+index 373a7fa..882673c 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -3,9 +3,6 @@ extends layout
+ block content
+     h1(id="title") Welcome to Daycare Monitor
+ 
+-    // Wrapper
+-    #wrapper
+-
+         // USER LIST
+         h2 User List
+         #userList
+@@ -13,7 +10,7 @@ block content
+                 thead
+                     th UserName
+                     th Email
+-                    th Delete?
++                    th Delete
+                 tbody
+         // /USER LIST
+ 
+@@ -33,4 +30,3 @@ block content
+                 button#btnAddUser Add User
+         // /ADD USER
+ 
+-    // /WRAPPER
+-- 
+1.9.0
+

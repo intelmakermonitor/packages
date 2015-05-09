@@ -1,0 +1,100 @@
+From 855e369f059f521322a1204fee591a38eb14054d Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Mon, 13 Apr 2015 03:41:18 +0000
+Subject: [PATCH 4/8] rename username with childname
+
+---
+ public/javascripts/global.js | 12 ++++++------
+ views/index.jade             | 11 ++++++-----
+ 2 files changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/public/javascripts/global.js b/public/javascripts/global.js
+index 936e119..c93656d 100644
+--- a/public/javascripts/global.js
++++ b/public/javascripts/global.js
+@@ -7,7 +7,7 @@ $(document).ready(function() {
+     // Populate the user table on initial page load
+     populateTable();
+ 
+-    // Username link click
++    // Childname link click
+     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+ 
+     // Add User button click
+@@ -35,7 +35,7 @@ function populateTable() {
+         // For each item in our JSON, add a table row and cells to the content string
+         $.each(data, function(){
+             tableContent += '<tr>';
+-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '" title="Show Details">' + this.username + '</a></td>';
++            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.childname + '" title="Show Details">' + this.childname + '</a></td>';
+             tableContent += '<td>' + this.email + '</td>';
+             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+             tableContent += '</tr>';
+@@ -52,11 +52,11 @@ function showUserInfo(event) {
+     // Prevent Link from Firing
+     event.preventDefault();
+ 
+-    // Retrieve username from link rel attribute
+-    var thisUserName = $(this).attr('rel');
++    // Retrieve Childname from link rel attribute
++    var thisChildName = $(this).attr('rel');
+ 
+     // Get Index of object based on id value
+-    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem.username; }).indexOf(thisUserName);
++    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem.childname; }).indexOf(thisChildName);
+ 
+     // Get our User Object
+     var thisUserObject = userListData[arrayPosition];
+@@ -84,7 +84,7 @@ function addUser(event) {
+ 
+         // If it is, compile all user info into one object
+         var newUser = {
+-            'username': $('#addUser fieldset input#inputUserName').val(),
++            'childname': $('#addUser fieldset input#inputChildName').val(),
+             'email': $('#addUser fieldset input#inputUserEmail').val(),
+             'fullname': $('#addUser fieldset input#inputUserFullname').val(),
+             'age': $('#addUser fieldset input#inputUserAge').val(),
+diff --git a/views/index.jade b/views/index.jade
+index 882673c..8d0b8fa 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -2,23 +2,24 @@ extends layout
+ 
+ block content
+     h1(id="title") Welcome to Daycare Monitor
++        h3     - the place where you can have a peaceful mind!
+ 
+         // USER LIST
+-        h2 User List
++        h2 Children's List
+         #userList
+             table
+                 thead
+-                    th UserName
++                    th ChildName
+                     th Email
+                     th Delete
+                 tbody
+         // /USER LIST
+ 
+         // ADD USER
+-        h2 Add User
++        h2 Add A New Child
+         #addUser
+             fieldset
+-                input#inputUserName(type='text', placeholder='Username')
++                input#inputChildName(type='text', placeholder='Childname')
+                 input#inputUserEmail(type='text', placeholder='Email')
+                 br
+                 input#inputUserFullname(type='text', placeholder='Full Name')
+@@ -27,6 +28,6 @@ block content
+                 input#inputUserLocation(type='text', placeholder='Location')
+                 input#inputUserGender(type='text', placeholder='gender')
+                 br
+-                button#btnAddUser Add User
++                button#btnAddUser Add
+         // /ADD USER
+ 
+-- 
+1.9.0
+

@@ -1,0 +1,61 @@
+From 19d743d9d81520820be35577bdfe61be4b291866 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Sat, 9 May 2015 20:16:01 +0000
+Subject: [PATCH 8/8] add child id and show more fields
+
+---
+ public/javascripts/global.js | 7 +++++--
+ views/index.jade             | 5 ++++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/public/javascripts/global.js b/public/javascripts/global.js
+index ace33dd..958f5a3 100644
+--- a/public/javascripts/global.js
++++ b/public/javascripts/global.js
+@@ -33,7 +33,10 @@ function populateTable() {
+         $.each(data, function(){
+             tableContent += '<tr>';
+             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.childname + '" title="Show Details">' + this.childname + '</a></td>';
+-            tableContent += '<td>' + this.email + '</td>';
++            tableContent += '<td>' + this.childid + '</td>';
++            tableContent += '<td>' + this.age + '</td>';
++            tableContent += '<td>' + this.gender + '</td>';
++            tableContent += '<td>' + this.parentname + '</td>';
+             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+             tableContent += '</tr>';
+         });
+@@ -60,7 +63,7 @@ function addUser(event) {
+         var newUser = {
+             'childname': $('#addUser fieldset input#inputChildName').val(),
+             'email': $('#addUser fieldset input#inputParentEmail').val(),
+-            'fullname': $('#addUser fieldset input#inputUserFullname').val(),
++            'childid': $('#addUser fieldset input#inputChildId').val(),
+             'age': $('#addUser fieldset input#inputUserAge').val(),
+             'location': $('#addUser fieldset input#inputUserLocation').val(),
+             'gender': $('#addUser fieldset input#inputUserGender').val(),
+diff --git a/views/index.jade b/views/index.jade
+index add33ca..fac52f4 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -10,6 +10,9 @@ block content
+             table
+                 thead
+                     th Child Name
++                    th Id
++                    th Age
++                    th Gender
+                     th Parent Name
+                     th Delete
+                 tbody
+@@ -22,7 +25,7 @@ block content
+                 input#inputChildName(type='text', placeholder='Child Name')
+                 input#inputParentName(type='text', placeholder='Parent Name')
+                 br
+-                input#inputUserFullname(type='text', placeholder='Child Full Name')
++                input#inputChildId(type='text', placeholder='Child Id')
+                 input#inputParentEmail(type='text', placeholder='Parent Email')
+                 br
+                 input#inputUserAge(type='text', placeholder='Age')
+-- 
+1.9.0
+

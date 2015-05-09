@@ -1,0 +1,26 @@
+From aa0e27a943356f365c8881ca425d1c8a42541ba2 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Mon, 13 Apr 2015 02:38:31 +0000
+Subject: [PATCH 2/8] added title
+
+---
+ views/index.jade | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/views/index.jade b/views/index.jade
+index c65e190..373a7fa 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -1,8 +1,7 @@
+ extends layout
+ 
+ block content
+-    h1= title
+-    p Welcome to Daycare Monitor Registration page
++    h1(id="title") Welcome to Daycare Monitor
+ 
+     // Wrapper
+     #wrapper
+-- 
+1.9.0
+
