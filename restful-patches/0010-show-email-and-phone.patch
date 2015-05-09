@@ -1,0 +1,41 @@
+From 90279ee64294dc654fb48d6890ec36e9a5110573 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kevin1.zhang@intel.com>
+Date: Sat, 9 May 2015 17:15:15 -0500
+Subject: [PATCH 10/10] show email and phone
+
+---
+ public/javascripts/global.js | 4 +++-
+ views/index.jade             | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/public/javascripts/global.js b/public/javascripts/global.js
+index 6a646fb..f7d5ef8 100644
+--- a/public/javascripts/global.js
++++ b/public/javascripts/global.js
+@@ -36,7 +36,9 @@ function populateTable() {
+             tableContent += '<td>' + this.childid + '</td>';
+             tableContent += '<td>' + this.age + '</td>';
+             tableContent += '<td>' + this.gender + '</td>';
+-            tableContent += '<td>' + this.parentname + '</td>';
++            tableContent += '<td>' + this.parentname + '</td>';
++            tableContent += '<td>' + this.email + '</td>';
++            tableContent += '<td>' + this.parentphone + '</td>';
+             tableContent += '<td>' + this.status + '</td>';
+             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+             tableContent += '</tr>';
+diff --git a/views/index.jade b/views/index.jade
+index 86e309c..e15181b 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -14,6 +14,8 @@ block content
+                     th Age
+                     th Gender
+                     th Parent Name
++                    th Email
++                    th Phone
+                     th Status
+                     th Delete
+                 tbody
+-- 
+1.9.1
+
