@@ -1,0 +1,239 @@
+From 6f51459399a477aea02bdd0907ec49d540d2c2c2 Mon Sep 17 00:00:00 2001
+From: Kevin Zhang <kzhang01@gmail.com>
+Date: Mon, 13 Apr 2015 00:50:29 +0000
+Subject: [PATCH] one patch for ammf demo on 2015-05-16
+
+Remove User Info
+added title
+remove user info and get rid of left column
+rename username with childname
+remove showUserInfo
+fix package version for restful app
+added parent phone, name info
+add child id and show more fields
+add status field to display
+show email and phone
+---
+ package.json                 |  8 +++----
+ public/javascripts/global.js | 57 +++++++++++++-------------------------------
+ views/index.jade             | 53 ++++++++++++++++------------------------
+ 3 files changed, 40 insertions(+), 78 deletions(-)
+
+diff --git a/package.json b/package.json
+index f2e5cc4..26aec27 100644
+--- a/package.json
++++ b/package.json
+@@ -7,13 +7,13 @@
+     },
+     "dependencies": {
+         "express": "~4.0.0",
+-        "serve-favicon": "*",
++        "serve-favicon": "~2.2.0",
+         "morgan": "~1.0.0",
+         "cookie-parser": "~1.0.1",
+         "body-parser": "~1.0.0",
+         "debug": "~0.7.4",
+-        "jade": "*",
+-        "mongodb": "*",
+-        "mongoskin": "*"
++        "jade": "~1.9.2",
++        "mongodb": "~1.4.33",
++        "mongoskin": "~1.4.12"
+     }
+ }
+diff --git a/public/javascripts/global.js b/public/javascripts/global.js
+index 936e119..ba137a1 100644
+--- a/public/javascripts/global.js
++++ b/public/javascripts/global.js
+@@ -7,9 +7,6 @@ $(document).ready(function() {
+     // Populate the user table on initial page load
+     populateTable();
+ 
+-    // Username link click
+-    $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+-
+     // Add User button click
+     $('#btnAddUser').on('click', addUser);
+ 
+@@ -35,8 +32,14 @@ function populateTable() {
+         // For each item in our JSON, add a table row and cells to the content string
+         $.each(data, function(){
+             tableContent += '<tr>';
+-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '" title="Show Details">' + this.username + '</a></td>';
+-            tableContent += '<td>' + this.email + '</td>';
++            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.childname + '" title="Show Details">' + this.childname + '</a></td>';
++            tableContent += '<td>' + this.childid + '</td>';
++            tableContent += '<td>' + this.age + '</td>';
++            tableContent += '<td>' + this.gender + '</td>';
++            tableContent += '<td>' + this.parentname + '</td>';
++            tableContent += '<td>' + this.email + '</td>';
++            tableContent += '<td>' + this.parentphone + '</td>';
++            tableContent += '<td>' + this.status + '</td>';
+             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+             tableContent += '</tr>';
+         });
+@@ -46,29 +49,6 @@ function populateTable() {
+     });
+ };
+ 
+-// Show User Info
+-function showUserInfo(event) {
+-
+-    // Prevent Link from Firing
+-    event.preventDefault();
+-
+-    // Retrieve username from link rel attribute
+-    var thisUserName = $(this).attr('rel');
+-
+-    // Get Index of object based on id value
+-    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem.username; }).indexOf(thisUserName);
+-
+-    // Get our User Object
+-    var thisUserObject = userListData[arrayPosition];
+-
+-    //Populate Info Box
+-    $('#userInfoName').text(thisUserObject.fullname);
+-    $('#userInfoAge').text(thisUserObject.age);
+-    $('#userInfoGender').text(thisUserObject.gender);
+-    $('#userInfoLocation').text(thisUserObject.location);
+-
+-};
+-
+ // Add User
+ function addUser(event) {
+     event.preventDefault();
+@@ -81,15 +61,17 @@ function addUser(event) {
+ 
+     // Check and make sure errorCount's still at zero
+     if(errorCount === 0) {
+-
+         // If it is, compile all user info into one object
+         var newUser = {
+-            'username': $('#addUser fieldset input#inputUserName').val(),
+-            'email': $('#addUser fieldset input#inputUserEmail').val(),
+-            'fullname': $('#addUser fieldset input#inputUserFullname').val(),
++            'childname': $('#addUser fieldset input#inputChildName').val(),
++            'email': $('#addUser fieldset input#inputParentEmail').val(),
++            'childid': $('#addUser fieldset input#inputChildId').val(),
+             'age': $('#addUser fieldset input#inputUserAge').val(),
+             'location': $('#addUser fieldset input#inputUserLocation').val(),
+-            'gender': $('#addUser fieldset input#inputUserGender').val()
++            'gender': $('#addUser fieldset input#inputUserGender').val(),
++            'parentname': $('#addUser fieldset input#inputParentName').val(),
++            'status': 'New User',
++            'parentphone': $('#addUser fieldset input#inputParentPhone').val()
+         }
+ 
+         // Use AJAX to post the object to our adduser service
+@@ -135,7 +117,6 @@ function deleteUser(event) {
+ 
+     // Check and make sure the user confirmed
+     if (confirmation === true) {
+-
+         // If they did, do our delete
+         $.ajax({
+             type: 'DELETE',
+@@ -148,18 +129,12 @@ function deleteUser(event) {
+             else {
+                 alert('Error: ' + response.msg);
+             }
+-
+             // Update the table
+             populateTable();
+-
+         });
+-
+     }
+     else {
+-
+         // If they said no to the confirm, do nothing
+         return false;
+-
+     }
+-
+-};
+\ No newline at end of file
++};
+diff --git a/views/index.jade b/views/index.jade
+index 3faa880..e15181b 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -1,54 +1,41 @@
+ extends layout
+ 
+ block content
+-    h1= title
+-    p Welcome to our test
+-
+-    // Wrapper
+-    #wrapper
+-
+-        // USER INFO
+-        #userInfo
+-            h2 User Info
+-            p
+-                strong Name:
+-                |  <span id='userInfoName'></span>
+-                br
+-                strong Age:
+-                |  <span id='userInfoAge'></span>
+-                br
+-                strong Gender:
+-                |  <span id='userInfoGender'></span>
+-                br
+-                strong Location:
+-                |  <span id='userInfoLocation'></span>
+-        // /USER INFO
++    h1(id="title") Welcome to Daycare Monitor
++        h3     - the place for parents to have a peaceful mind!
+ 
+         // USER LIST
+-        h2 User List
++        h2 Children's List
+         #userList
+             table
+                 thead
+-                    th UserName
++                    th Child Name
++                    th Id
++                    th Age
++                    th Gender
++                    th Parent Name
+                     th Email
+-                    th Delete?
++                    th Phone
++                    th Status
++                    th Delete
+                 tbody
+         // /USER LIST
+ 
+         // ADD USER
+-        h2 Add User
++        h2 Add A New Child Information
+         #addUser
+             fieldset
+-                input#inputUserName(type='text', placeholder='Username')
+-                input#inputUserEmail(type='text', placeholder='Email')
++                input#inputChildName(type='text', placeholder='Child Name')
++                input#inputParentName(type='text', placeholder='Parent Name')
++                br
++                input#inputChildId(type='text', placeholder='Child Id')
++                input#inputParentEmail(type='text', placeholder='Parent Email')
+                 br
+-                input#inputUserFullname(type='text', placeholder='Full Name')
+                 input#inputUserAge(type='text', placeholder='Age')
++                input#inputParentPhone(type='text', placeholder='Parent Phone')
+                 br
+-                input#inputUserLocation(type='text', placeholder='Location')
+                 input#inputUserGender(type='text', placeholder='gender')
++                input#inputUserLocation(type='text', placeholder='Location')
+                 br
+-                button#btnAddUser Add User
++                button#btnAddUser Add
+         // /ADD USER
+-
+-    // /WRAPPER
+\ No newline at end of file
+-- 
+2.4.0.53.g8440f74
+
